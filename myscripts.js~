@@ -149,7 +149,7 @@
 					callback(xmlhttp.responseText);
 				}
 			}
-			var value = '{"request":{"passengers":{"adultCount":1},"slice":[{"origin":"BOS","destination":"LAX","date":"2014-11-05"},      {"origin":"LAX","destination":"BOS","date":"2014-11-10"}]}}';
+			var value = '{"request":{"passengers":{"adultCount":1},"slice":[{"origin":"BOS","destination":"LAX","date":"2014-07-05"},      {"origin":"LAX","destination":"BOS","date":"2014-07-10"}]}}';
 				//'{  "request": {"passengers": {  "adultCount": "1"},"slice": [	  {	"origin": "SFO","destination": "LAX",	"date": "2014-11-11"  }	],"solutions": "1" }}';
 			xmlhttp.open("POST", "https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyB_nAK2usQ4-PaYm2L_0YO6tKo5j6NCd_8", true);
 			

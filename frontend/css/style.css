@@ -1,0 +1,67 @@
+/*For welcome screen*/
+
+.picture{
+	display:inline-block;
+
+	border-radius:5px;
+	
+	height:400px;
+	width:30%;
+	
+	opacity:0.5;
+}
+
+.picture:hover{
+	opacity:1;
+	
+}
+
+.center-div{
+	margin:auto;
+	text-align:center;
+	
+}
+
+#left{
+	background-image:url("../res/single_trip.jpg");
+	margin-right:5%;
+	
+}
+
+#right{
+	margin-right:5%;
+	background-image:url("../res/round_trip.jpg");
+   
+}
+/*The center map div*/
+.map{
+	width:75%;
+
+}
+
+#map-canvas { 
+	width:75%; 
+	height:640px; 
+	margin: 10; 
+	text-align:center; 
+	padding: 0;
+
+}
+
+
+/*For Results screen*/
+.inline-div{
+	display:inline-block;
+
+}
+
+.result{
+	width:23%;
+	float:right;
+	margin: 5px 5px 5px 5px;
+}
+
+.result-title{
+	width:100%;
+	text-align:center;
+}

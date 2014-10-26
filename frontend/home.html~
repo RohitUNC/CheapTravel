@@ -1,0 +1,14 @@
+<div class="center-div">
+
+	<button>
+	<div class="picture" id="left" ng-click="clicked()">
+		
+	</div>
+</button>
+
+	<div class="picture" id="right">
+
+	</div>
+		
+
+</div>

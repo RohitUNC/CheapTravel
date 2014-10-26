@@ -3,7 +3,7 @@
 		    preserveViewport: true,         
 		    suppressMarkers:true,					
 		    polylineOptions: {
-			      strokeColor: "red"
+			      strokeColor: "orange"
 			 }
 		};
 		 var rendererOptionsB = {
@@ -27,8 +27,7 @@
 		function initialize() {
 		  directionsDisplay[0] = new google.maps.DirectionsRenderer(rendererOptionsR);	
 		  directionsDisplay[1] = new google.maps.DirectionsRenderer(rendererOptionsB);	
-		  directionsDisplay[2] = new google.maps.DirectionsRenderer(rendererOptionsG);		
-		  directionsDisplay[3] = new google.maps.DirectionsRenderer(rendererOptionsG);			  
+		  directionsDisplay[2] = new google.maps.DirectionsRenderer(rendererOptionsG);		  
 		  var chicago = new google.maps.LatLng(41.850033, -87.6500523);
 		  var mapOptions = {
 		    zoom:7,
@@ -51,12 +50,17 @@
 				  }
 				});					
 			}			
-		//end of init		
 		}
 		
-		function calcRoute() {
-		  var start = document.getElementById("start").value;
-		  var end = document.getElementById("end").value;		 
+		function calcRoute(start, end) {
+		  //var start = document.getElementById("start").value;
+		  //var end = document.getElementById("end").value;		
+			
+		  var output={drive: [],
+					  walk: [],
+					  transit:[],
+					  flight:[0]};	
+		  
 		  var requestW = {
 		    origin:start,
 		    destination:end,
@@ -83,7 +87,7 @@
 		  directionsService.route(requestD, function(result, status) {
 		    if (status == google.maps.DirectionsStatus.OK) {		        
 		      directionsDisplay[0].setDirections(result);
-		      getDistance(result, 10, "Driving");			            
+		      output['drive'].push(getDistance(result, 10, "Driving"));			            
 		    }
 		  });
 		   directionsDisplay[1].setMap(map);
@@ -91,7 +95,7 @@
 		    if (status == google.maps.DirectionsStatus.OK) {
 		        
 		      directionsDisplay[1].setDirections(result);
-		      getDistance(result, 15, "Transit");	
+		      output['transit'].push(getDistance(result, 15, "Transit"));	
 		            
 		    }
 		  });  	 	
@@ -99,20 +103,13 @@
 		  directionsService.route(requestW, function(result, status) {
 		    if (status == google.maps.DirectionsStatus.OK) {		        
 		      directionsDisplay[2].setDirections(result);
-		      getDistance(result, 100, "Walk");			            
+		      output['walk'].push(getDistance(result, 100, "Walk"));			            
 		    }
 		  }); 	
-		  directionsDisplay[3].setMap(map);
-		  callAjax(function(response)  {
-			console.log(response);
-		  });
-		    /*if (status == google.maps.DirectionsStatus.OK) {		        
-		      directionsDisplay[3].setDirections(result);
-		      getDistance(result, 100, "Walk");			            
-		    }*/
-		   
 		//cscript //NoLogo curlie.wsf -o ggl.ico http://www.google.com/favicon.ico
 		//end of calcRoute
+		
+		return output;
 		}
 		
 		function getDistance(result, cost, mode) {
@@ -134,27 +131,11 @@
 				}
 				total = total/1000;
 				console.log(mode + " " + total);
-				if(mode == "Driving") 
-					document.getElementById("totalD").innerHTML = total + " kms Costs: $" + total*cost ;
-				if(mode == "Transit")
-					document.getElementById("totalT").innerHTML = total + " kms Costs: $" + total*cost ;
+				
 			}
-		}
-		function callAjax(callback){
-			var xmlhttp;
-			// compatible with IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-			xmlhttp.onreadystatechange = function(){
-				if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-					callback(xmlhttp.responseText);
-				}
-			}
-			var value = '{"request":{"passengers":{"adultCount":1},"slice":[{"origin":"BOS","destination":"LAX","date":"2014-11-05"},      {"origin":"LAX","destination":"BOS","date":"2014-11-10"}]}}';
-				//'{  "request": {"passengers": {  "adultCount": "1"},"slice": [	  {	"origin": "SFO","destination": "LAX",	"date": "2014-11-11"  }	],"solutions": "1" }}';
-			xmlhttp.open("POST", "https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyB_nAK2usQ4-PaYm2L_0YO6tKo5j6NCd_8", true);
 			
-			xmlhttp.setRequestHeader("Content-Type", "application/json");
-			xmlhttp.send(JSON.stringify(value));
+			return total;
 		}
+		
 			
       google.maps.event.addDomListener(window, 'load', initialize);

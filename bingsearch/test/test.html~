@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+   <head>
+      <title></title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+      <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+
+      <script type="text/javascript">
+         
+         var map = null;
+
+         function GetMap()
+         {
+            // Initialize the map
+            map = new Microsoft.Maps.Map(document.getElementById("mapDiv"),{credentials:"AsdAdLQtpuOAkfy5cLq3YqjeRtTzZvG_fVnBk_RhT8WMZXo97F18nIYSDmgV5oVs"});
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: directionsModuleLoaded });
+
+         }
+
+
+
+         function directionsModuleLoaded()
+         {
+            // Initialize the DirectionsManager
+            var directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+            // Create start and end waypoints and add them to the route
+            var startWaypoint = new Microsoft.Maps.Directions.Waypoint({address:"Seattle, WA"});
+            var endWaypoint = new Microsoft.Maps.Directions.Waypoint({address:"Raleigh, NC"});
+
+            directionsManager.addWaypoint(startWaypoint);
+            directionsManager.addWaypoint(endWaypoint);
+
+            // Set directions render options - in this case, specify the div where the itinerary is displayed.
+            directionsManager.setRenderOptions({ itineraryContainer: document.getElementById('itineraryDiv') });
+
+            // Specify a handler for when the directions are calculated
+            Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', displayDistanceAndTime );
+
+            // Calculate directions, which displays a route on the map
+            directionsManager.calculateDirections();
+
+         } 
+
+
+         function displayDistanceAndTime(e)
+         {
+            alert("Total Distance: " + e.routeSummary[0].distance + " miles\n" + "Total Time: " + e.routeSummary[0].time/60 + " minutes" );
+       
+         }
+
+	function activate(from,to) {
+
+
+	}
+
+      </script>
+   </head>
+   <body onload="GetMap();">
+      <div id='mapDiv' style="position:relative; width:400px; height:400px;"></div>       
+      <div id='itineraryDiv' style="position:relative; width:400px;"></div>
+   
+      <div>
+	<form>
+		Destination: <input type="text" name="input"></input>
+		From: <input type="text" name="input"></input>
+		<input type="submit" value="submit"></input>
+	
+	</form>
+
+
+	</div>
+      
+      </body>
+</html>
