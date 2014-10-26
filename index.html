@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body, #map-canvas { width:900px; height:400px; margin: 10; text-align:center; padding: 0;}
+    </style>
+    <script type="text/javascript"
+      //src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu76A4fr9nerQ5ntpCkreCPhI1vnkBZlY">
+      src="https://maps.googleapis.com/maps/api/js?">
+    </script>
+	<script src="myscripts.js"></script>
+    
+  </head>
+  <body>
+<div id="map-canvas"></div>
+<strong>Start: </strong>
+<select id="start" onchange="calcRoute();">
+  <option value="chicago, il">Chicago</option>
+  <option value="san francisco, ca">San Francisco</option>
+  <option value="los angeles, ca">Los Angeles</option>
+  <option value="oklahoma city, ok">Oklahoma City</option>
+  <option value="chapel hill, nc">Chapel Hill, NC</option>
+  <option value="durham, nc">Durham, NC</option>
+  <option value="raleigh, nc">Raleigh NC</option>
+  <option value="dallas, tx">Dallas</option>
+  <option value="houston, tx">Houston</option>
+  <option value="seattle, wa">Seattle </option>
+  <option value="new york ">New York</option>
+</select>
+<strong>End: </strong>
+<select id="end" onchange="calcRoute();">
+   <option value="chicago, il">Chicago</option>
+  <option value="san francisco, ca">San Francisco</option>
+  <option value="los angeles, ca">Los Angeles</option>
+  <option value="oklahoma city, ok">Oklahoma City</option>
+  <option value="chapel hill, nc">Chapel Hill, NC</option>
+  <option value="durham, nc">Durham, NC</option>
+  <option value="raleigh, nc">Raleigh NC</option>
+  <option value="dallas, tx">Dallas</option>
+  <option value="houston, tx">Houston</option>
+  <option value="seattle, wa">Seattle </option>
+  <option value="new york ">New York</option>
+</select>
+
+
+<strong>Dist: </strong>
+<div id="totalD"> </div>
+<div id="totalT"> </div>
+  </body>
+</html>
