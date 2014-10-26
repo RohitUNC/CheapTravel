@@ -27,7 +27,8 @@
 		function initialize() {
 		  directionsDisplay[0] = new google.maps.DirectionsRenderer(rendererOptionsR);	
 		  directionsDisplay[1] = new google.maps.DirectionsRenderer(rendererOptionsB);	
-		  directionsDisplay[2] = new google.maps.DirectionsRenderer(rendererOptionsG);		  
+		  directionsDisplay[2] = new google.maps.DirectionsRenderer(rendererOptionsG);		
+		  directionsDisplay[3] = new google.maps.DirectionsRenderer(rendererOptionsG);			  
 		  var chicago = new google.maps.LatLng(41.850033, -87.6500523);
 		  var mapOptions = {
 		    zoom:7,
@@ -50,6 +51,7 @@
 				  }
 				});					
 			}			
+		//end of init		
 		}
 		
 		function calcRoute() {
@@ -100,6 +102,15 @@
 		      getDistance(result, 100, "Walk");			            
 		    }
 		  }); 	
+		  directionsDisplay[3].setMap(map);
+		  callAjax(function(response)  {
+			console.log(response);
+		  });
+		    /*if (status == google.maps.DirectionsStatus.OK) {		        
+		      directionsDisplay[3].setDirections(result);
+		      getDistance(result, 100, "Walk");			            
+		    }*/
+		   
 		//cscript //NoLogo curlie.wsf -o ggl.ico http://www.google.com/favicon.ico
 		//end of calcRoute
 		}
@@ -129,21 +140,20 @@
 					document.getElementById("totalT").innerHTML = total + " kms Costs: $" + total*cost ;
 			}
 		}
-		function post(url, data, headers, success) {
-			$.ajax({
-			beforeSend: function(xhr){
-				$.each(headers, function(key, val) {
-					xhr.setRequestHeader(key, val);
-				});
-			xhr.setRequestHeader('Content-Length', data.length);
+		function callAjax(callback){
+			var xmlhttp;
+			// compatible with IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function(){
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+					callback(xmlhttp.responseText);
+				}
 			}
-			type: "POST",
-			url: https://www.googleapis.com/qpxExpress/v1/resourcePath?parameters,
-			processData: false,
-			data: data,
-			dataType: "xml",
-			success: success
-    });
-}
+			var value = '{  "request": {"passengers": {  "adultCount": "1"},"slice": [	  {	"origin": "SFO","destination": "LAX",	"date": "2014-11-11"  }	],"solutions": "1" }}';
+			xmlhttp.open("POST", "https://www.googleapis.com/qpxExpress/v1/trips/search", true);
+			
+			xmlhttp.setRequestHeader("Content-Type", "application/json");
+			xmlhttp.send(JSON.stringify(value));
+		}
 			
       google.maps.event.addDomListener(window, 'load', initialize);
